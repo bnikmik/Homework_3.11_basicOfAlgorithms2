@@ -134,9 +134,31 @@ public class MyIngegerList implements IntegerList {
      */
     @Override
     public boolean contains(Integer item) {
-        for (Integer integer : integers) {
-            if (integer != null && integer.equals(item)) {
+        sortInsertion();
+        return containsBinary(item);
+    }
+
+    /**
+     * Binary search
+     *
+     * @param item - element of array
+     * @return true/false - does the element exist in the array
+     */
+    private boolean containsBinary(int item) {
+        int min = 0;
+        int max = integers.length - 1;
+
+        while (min <= max) {
+            int mid = (min + max) / 2;
+
+            if (item == integers[mid]) {
                 return true;
+            }
+
+            if (item < integers[mid]) {
+                max = mid - 1;
+            } else {
+                min = mid + 1;
             }
         }
         return false;
@@ -300,8 +322,8 @@ public class MyIngegerList implements IntegerList {
      * swapping elements in array
      *
      * @param arr - array
-     * @param i - element "a"
-     * @param j - next element after element "a"
+     * @param i   - element "a"
+     * @param j   - next element after element "a"
      */
     private void swapElements(Integer[] arr, int i, int j) {
         int temp = arr[i];
