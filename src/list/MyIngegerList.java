@@ -252,4 +252,60 @@ public class MyIngegerList implements IntegerList {
     public String toString() {
         return Arrays.toString(Arrays.copyOf(integers, size));
     }
+
+    /**
+     * sorting by bubble method
+     */
+    public void sortBubble() {
+        for (int i = 0; i < integers.length - 1; i++) {
+            for (int j = 0; j < integers.length - 1 - i; j++) {
+                if (integers[j] > integers[j + 1]) {
+                    swapElements(integers, j, j + 1);
+                }
+            }
+        }
+    }
+
+    /**
+     * sorting by selection method
+     */
+    public void sortSelection() {
+        for (int i = 0; i < integers.length - 1; i++) {
+            int minElementIndex = i;
+            for (int j = i + 1; j < integers.length; j++) {
+                if (integers[j] < integers[minElementIndex]) {
+                    minElementIndex = j;
+                }
+            }
+            swapElements(integers, i, minElementIndex);
+        }
+    }
+
+    /**
+     * sorting by insertion method
+     */
+    public void sortInsertion() {
+        for (int i = 1; i < integers.length; i++) {
+            int temp = integers[i];
+            int j = i;
+            while (j > 0 && integers[j - 1] >= temp) {
+                integers[j] = integers[j - 1];
+                j--;
+            }
+            integers[j] = temp;
+        }
+    }
+
+    /**
+     * swapping elements in array
+     *
+     * @param arr - array
+     * @param i - element "a"
+     * @param j - next element after element "a"
+     */
+    private void swapElements(Integer[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 }
