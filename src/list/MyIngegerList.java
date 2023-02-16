@@ -30,7 +30,7 @@ public class MyIngegerList implements IntegerList {
      */
     @Override
     public Integer add(Integer item) {
-        getIncreaseArray();
+        grow();
         integers[size++] = item;
         return item;
     }
@@ -45,7 +45,7 @@ public class MyIngegerList implements IntegerList {
     @Override
     public Integer add(int index, Integer item) {
         checkIndex(index);
-        getIncreaseArray();
+        grow();
         Integer[] temp = Arrays.copyOf(integers, size);
         System.arraycopy(temp, 0, integers, 0, index);
         integers[index] = item;
@@ -57,9 +57,9 @@ public class MyIngegerList implements IntegerList {
     /**
      * get new array if last element != null
      */
-    private void getIncreaseArray() {
+    private void grow() {
         if (integers[integers.length - 1] != null) {
-            integers = Arrays.copyOf(integers, integers.length * 2);
+            integers = Arrays.copyOf(integers, integers.length * 3 / 2);
         }
     }
 
@@ -134,7 +134,7 @@ public class MyIngegerList implements IntegerList {
      */
     @Override
     public boolean contains(Integer item) {
-        sortInsertion();
+        quickSort(0, size - 1);
         return containsBinary(item);
     }
 
@@ -329,5 +329,50 @@ public class MyIngegerList implements IntegerList {
         int temp = arr[i];
         arr[i] = arr[j];
         arr[j] = temp;
+    }
+
+    /**
+     * sorting by quicksort method
+     *
+     * @param low - start point sorting
+     * @param high - end point sorting
+     */
+    public void quickSort(int low, int high) {
+        if (integers.length == 0)
+            return;//завершить выполнение, если длина массива равна 0
+
+        if (low >= high)
+            return;//завершить выполнение если уже нечего делить
+
+        // выбрать опорный элемент
+        int middle = low + (high - low) / 2;
+        int opora = integers[middle];
+
+        // разделить на подмассивы, который больше и меньше опорного элемента
+        int i = low, j = high;
+        while (i <= j) {
+            while (integers[i] < opora) {
+                i++;
+            }
+
+            while (integers[j] > opora) {
+                j--;
+            }
+
+            if (i <= j) {//меняем местами
+                int temp = integers[i];
+                integers[i] = integers[j];
+                integers[j] = temp;
+                i++;
+                j--;
+            }
+        }
+
+        // вызов рекурсии для сортировки левой и правой части
+        if (low < j)
+            quickSort(low, j);
+
+        if (high > i)
+            quickSort(i, high);
     }
 }
